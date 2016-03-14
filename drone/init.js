@@ -1,35 +1,36 @@
+'use strict';
 
-var API = require('./api.js');
+var API      = require('./api.js');
 var nssocket = require('nssocket');
+var PWM      = require('./lib/pwm');
+var Server   = require('./server.js');
 
-function generateRoutes() {
+class Drone {
+  constructor(name) {
+    this.pwm    = new PWM();
+    this.name   = name;
 
+    this.server = Server.init(9876, connection => {
+      console.log('V New connection established');
+      this.welcomeMessage(connection);
+      this.loadActions(connection);
+    });
+  }
+
+  welcomeMessage(connection) {
+    connection.send(['welcome'], {
+      name: this.name
+    });
+  }
+
+
+  loadActions(connection) {
+    Object.keys(API).forEach(route_name => {
+	    console.log('O Exposing route name %s', route_name);
+	    connection.data([route_name], API[route_name].bind(this));
+	  });
+  }
 }
-var Server = {
-    init : function initServer(cb) {
-	
-	this.server = nssocket.createServer(connectionListener);
-
-	this.server.on('error', function() {
-	});
-
-	this.server.on('listening', function() {
-	});
-
-	this.server.listen(9876, '0.0.0.0');	
-    },
-    loadRoutes : function loadRoutes() {
-	var self = this;
-
-	Object.keys(API).forEach(function(route_name) {
-	    console.log('Binding route name %s', route_name);
-	    self.socket.data([route_name], API[route_name]);
-	});
-    }
-}
 
 
-    //
-    // Create an `nssocket` TCP server
-    //
-
+var mw6 = new Drone('mw6');

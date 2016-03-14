@@ -1,12 +1,23 @@
+
 var nssocket = require('nssocket');
 
-//
-// Create an `nssocket` TCP server
-//
-var server = nssocket.createServer(function (socket) {
-    socket.data(['cmd'], function (data) {
-	console.dir(data);
-    })
-});
+var Server = {
+  init : function initServer(port, cb) {
 
-server.listen(9876);
+	  this.server = nssocket.createServer(cb);
+
+	  this.server.on('error', function(err) {
+      console.error(err);
+	  });
+
+	  this.server.on('listening', function() {
+      console.log('Listening on port', port);
+	  });
+
+	  this.server.listen(port, '0.0.0.0');
+
+    return this.server;
+  }
+};
+
+module.exports = Server;
