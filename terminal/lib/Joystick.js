@@ -29,6 +29,8 @@ var Joystick = (function() {
     this.controller.on('axis', data => {
       var pckt = {};
 
+      data.value += 32767;
+
       switch(data.number) {
       case 0:
         pckt.val = data.value;

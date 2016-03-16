@@ -6,6 +6,9 @@ class Client {
   constructor(ip, port) {
     var self = this;
 
+    this.ip = ip;
+    this.port = port;
+
 	  this.socket = new nssocket.NsSocket({
 	    type : 'tcp4'
 	  });
@@ -27,10 +30,10 @@ class Client {
 	  });
 
 	  this.socket.on('start', () => {
-      console.log('Connection established');
+      console.log('Connection established to %s:%s', this.ip, this.port);
     });
 
-    this.socket.connect(port, ip);
+    this.socket.connect(this.port, this.ip);
 
     return this.socket;
   }
