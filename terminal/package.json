@@ -11,6 +11,8 @@
   "dependencies": {
     "nssocket": "^0.6.0",
     "debug" : "*",
-    "joystick" : "*"
+    "joystick" : "*",
+    "commander" : "*",
+    "shelljs"  : "*"
   }
 }
