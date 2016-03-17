@@ -9,7 +9,7 @@ var Joystick = (function() {
 
     EventEmitter.call(Command);
 
-    this.controller = new Controller(0, 3500, 3500);
+    this.controller = new Controller(0, 200, 200);
 
     this.curr_pos = {
       // throttle
@@ -31,6 +31,7 @@ var Joystick = (function() {
 
       data.value += 32767;
 
+      console.log(data);
       switch(data.number) {
       case 0:
         pckt.val = data.value;
@@ -50,6 +51,10 @@ var Joystick = (function() {
       case 3:
         pckt.val = data.value;
         pckt.act = 'yaw';
+        _emit(pckt);
+      case 4:
+        pckt.val = data.value;
+        pckt.act = 'action';
         _emit(pckt);
       }
     });

@@ -20,9 +20,8 @@ class Client {
 	  this.socket.on('close', function() {
 	    console.log('Connection closed', arguments);
       setTimeout(function() {
-        console.log('Reconnecting');
         self.socket.connect(port, ip);
-      });
+      }, 1000);
 	  });
 
 	  this.socket.on('reconnecting', function() {
