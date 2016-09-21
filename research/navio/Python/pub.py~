@@ -1,0 +1,3 @@
+from thoonk import Thoonk
+pubsub = Thoonk(host, port, db, listen=True)
+
