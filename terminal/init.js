@@ -28,12 +28,6 @@ class Terminal {
 var program = require('commander');
 
 program
-  .option('-p, --peppers', 'Add peppers')
-  .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
-  .parse(process.argv);
-
-
-program
   .command('start <ip> [port || 9876]')
   .action(function (ip, port) {
     if (!port)
@@ -69,5 +63,3 @@ if (process.argv.length == 2) {
   program.parse(process.argv);
   program.outputHelp();
 }
-
-//

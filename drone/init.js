@@ -8,7 +8,7 @@ var Server   = require('./server.js');
 class Drone {
   constructor(name) {
     this.pwm    = new PWM();
-      this.initPWM();
+    this.initPWM();
     this.name   = name;
 
     this.server = Server.init(9876, connection => {
@@ -24,8 +24,8 @@ class Drone {
     });
   }
 
-    initPWM() {
-    }
+  initPWM() {
+  }
 
   loadActions(connection) {
     Object.keys(API).forEach(route_name => {

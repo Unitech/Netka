@@ -3,7 +3,6 @@ var nssocket = require('nssocket');
 
 var Server = {
   init : function initServer(port, cb) {
-
 	  this.server = nssocket.createServer(cb);
 
 	  this.server.on('error', function(err) {

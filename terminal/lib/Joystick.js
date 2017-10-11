@@ -91,10 +91,4 @@ var Joystick = (function() {
   return Command;
 })();
 
-// class Joystick {
-//   constructor(refresh_rate) {
-
-//   }
-// }
-
 module.exports = Joystick;
