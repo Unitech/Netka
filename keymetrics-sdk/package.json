@@ -11,6 +11,7 @@
   "dependencies": {
     "johnny-five": "^0.10.0",
     "pmx" : "*",
-    "redis" : "*"
+    "redis" : "*",
+    "pololu-maestro": "^3.1.1"
   }
 }

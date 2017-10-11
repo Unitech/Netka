@@ -1,11 +1,15 @@
 var five = require("johnny-five");
-var board = new five.Board();
 // need to falsh arduino with PingFirmata (https://gist.githubusercontent.com/rwaldron/0519fcd5c48bfe43b827/raw/f17fb09b92ed04722953823d9416649ff380c35b/PingFirmata.ino)
 var pmx = require('pmx');
 var probe = pmx.probe();
 var redis = require("redis");
+var Engine = require('./engine.js');
 
 var relay, led, proximity;
+
+var board = new five.Board({
+  repl : false
+});
 
 var sub = redis.createClient(), pub = redis.createClient();
 
@@ -52,7 +56,13 @@ sub.on("message", function (channel, message) {
 sub.subscribe('gps');
 sub.subscribe('barometer');
 
+var engine = new Engine();
+
+/**
+ * Main
+ */
 board.on("ready", function() {
+
   proximity = new five.Proximity({
 	  controller: "HCSR04",
 	  pin: 7
@@ -60,6 +70,8 @@ board.on("ready", function() {
 
   relay = new five.Relay(10);
   led = new five.Led(11);
+
+  relay.on();
 
   proximity.on("data", function() {
 	  metric.set(this.cm);
@@ -89,5 +101,27 @@ board.on("ready", function() {
 
     is_runing = !is_runing;
     reply(is_fading);
+  });
+
+  var engine_on = false;
+
+  pmx.action('engine', function(reply) {
+    if (engine_on == false)
+      engine.throttle(100);
+    else
+      engine.throttle(0);
+
+    engine_on = !engine_on;
+    reply(engine_on);
+  });
+
+  pmx.action('engineMax', function(reply) {
+    if (engine_on == false)
+      engine.throttle(250);
+    else
+      engine.throttle(0);
+
+    engine_on = !engine_on;
+    reply(engine_on);
   });
 });

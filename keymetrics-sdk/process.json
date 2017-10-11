@@ -1,12 +1,9 @@
 {
   apps : [{
-    script : 'Barometer.py',
-    watch : true
+    script : 'Barometer.py'
   }, {
-    script : 'GPS.py',
-    watch : true
+    script : 'GPS.py'
   }, {
-    script : 'main.js',
-    watch : true
+    script : 'main.js'
   }]
 }
